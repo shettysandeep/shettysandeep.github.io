@@ -1,0 +1,11 @@
+[
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/atm-rbi-data-etl/index.html",
+      "/posts/fpi_analysis/index.html",
+      "/posts/date_tricks/index.html",
+      "/posts/install-spark/index.html"
+    ]
+  }
+]
