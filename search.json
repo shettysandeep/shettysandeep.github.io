@@ -70,10 +70,24 @@
     "text": "Footnotes\n\n\nFPIs are large foreign institutional investors such as sovereign funds and large qualified foreign investors who invest in the Indian capital markets.↩︎\nhttps://www.fpi.nsdl.co.in/Reports/Yearwise.aspx?RptType=5↩︎\nThese are my calculations using NSE total turnover data and the total shares from the NSDL data above↩︎\nhttps://www.fpi.nsdl.co.in/web/StaticReports/FIITradeWise2008/FIITradeWise2008.htm↩︎"
   },
   {
+    "objectID": "posts/atm-rbi-data-analysis/index.html",
+    "href": "posts/atm-rbi-data-analysis/index.html",
+    "title": "On Debit and Credit transactions in the banking system - part 2",
+    "section": "",
+    "text": "We downloaded the Bankwise ATM/POS/Card Statistics monthly data for 2025, cleaned it and combined it into a single dataset called combined_atm_data.csv in the previous post. We will use this dataset for our some descriptive analysis in this post.\nIn summary, the quick findings from the data are as follows:\nWe begin with importing the data.\nimport pandas as pd\nimport plotly.express as px\n\ndat0 = pd.read_csv(\"combined_atm_data.csv\")\n#print(\"Data combined and cleaned. Sample rows:\\n\", dat0.head())\nPlease see the previous post for details on the data cleaning and combination process as well as a look at the data."
+  },
+  {
+    "objectID": "posts/atm-rbi-data-analysis/index.html#footnotes",
+    "href": "posts/atm-rbi-data-analysis/index.html#footnotes",
+    "title": "On Debit and Credit transactions in the banking system - part 2",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nhttps://bankofmaharashtra.bank.in/credit-cards#:~:text=Frequently%20Asked%20Questions%20on%20Bank,be%20foreclosed%20without%20any%20penalty.↩︎"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "data niyat",
     "section": "",
-    "text": "On Debit and Credit transactions in the banking system - part 1\n\n\n\npython\n\nbanking\n\nrbi\n\ndata-science\n\nlearning\n\n\n\nGetting RBIs monthly data on credit and debit transactions.\n\n\n\n\n\nFeb 26, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nFPIs in India: 2024-2025\n\n\n\npython\n\nequity\n\nfpi\n\ndata-science\n\nlearning\n\n\n\nOrganizing NSDL’s data on FPI activities in the Indian equity markets.\n\n\n\n\n\nFeb 20, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nDiscovering date formats in Spreadsheets using Python\n\n\n\ndata-science\n\npython\n\npandas\n\ndate-time\n\n\n\nWorking with Date and Time formats\n\n\n\n\n\nJan 25, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nInstalling Spark/PySpark/Spark-NLP\n\n\n\npyspark\n\nspark-nlp\n\n\n\n\n\n\n\n\n\nJun 8, 2025\n\n\nsandeep\n\n\n\n\n\nNo matching items"
+    "text": "On Debit and Credit transactions in the banking system - part 2\n\n\n\npython\n\nbanking\n\nrbi\n\ndata-science\n\nlearning\n\n\n\nAnalyzing RBIs monthly data on credit and debit transactions.\n\n\n\n\n\nMar 20, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nOn Debit and Credit transactions in the banking system - part 1\n\n\n\npython\n\nbanking\n\nrbi\n\ndata-science\n\nlearning\n\n\n\nGetting RBIs monthly data on credit and debit transactions.\n\n\n\n\n\nFeb 26, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nFPIs in India: 2024-2025\n\n\n\npython\n\nequity\n\nfpi\n\ndata-science\n\nlearning\n\n\n\nOrganizing NSDL’s data on FPI activities in the Indian equity markets.\n\n\n\n\n\nFeb 20, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nDiscovering date formats in Spreadsheets using Python\n\n\n\ndata-science\n\npython\n\npandas\n\ndate-time\n\n\n\nWorking with Date and Time formats\n\n\n\n\n\nJan 25, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nInstalling Spark/PySpark/Spark-NLP\n\n\n\npyspark\n\nspark-nlp\n\n\n\n\n\n\n\n\n\nJun 8, 2025\n\n\nsandeep\n\n\n\n\n\nNo matching items"
   }
 ]
