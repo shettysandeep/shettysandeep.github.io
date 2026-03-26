@@ -6,9 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Exploring real-world datasets with a focus on applications in banking, finance, and economics.">
+<meta name="author" content="sandeep">
+<meta name="dcterms.date" content="2026-03-26">
+<meta name="description" content="Some thoughts on why 2026 may not be a good year for Indian equities and why debt instruments may be a better choice.">
 
-<title>data niyat – sandeep shetty</title>
+<title>India 2026: Bonds over Equities? – sandeep shetty</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,26 +26,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5b4ad623e5705c0698d39aec6f10cf02.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-5b4ad623e5705c0698d39aec6f10cf02.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,77 +71,19 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
+<link rel="stylesheet" href="../../styles.css">
+</head>
 
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="sandeep shetty" href="index.xml" data-external="1"></head>
-
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">sandeep shetty</span>
     </a>
   </div>
@@ -152,7 +94,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -175,261 +117,139 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">data <em>niyat</em></h1>
+    <div class="quarto-title column-body">
+      <h1 class="title">India 2026: Bonds over Equities?</h1>
                   <div>
         <div class="description">
-          Exploring real-world datasets with a focus on applications in banking, finance, and economics.
+          Some thoughts on why 2026 may not be a good year for Indian equities and why debt instruments may be a better choice.
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">opinion</div>
+                <div class="quarto-category">finance</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>sandeep </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 26, 2026</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(6)</span></div><div class="category" data-category="YmFua2luZw==">banking <span class="quarto-category-count">(2)</span></div><div class="category" data-category="ZGF0YS1zY2llbmNl">data-science <span class="quarto-category-count">(4)</span></div><div class="category" data-category="ZGF0ZS10aW1l">date-time <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZXF1aXR5">equity <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZmluYW5jZQ==">finance <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZnBp">fpi <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bGVhcm5pbmc=">learning <span class="quarto-category-count">(3)</span></div><div class="category" data-category="b3Bpbmlvbg==">opinion <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cGFuZGFz">pandas <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHlzcGFyaw==">pyspark <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHl0aG9u">python <span class="quarto-category-count">(4)</span></div><div class="category" data-category="cmJp">rbi <span class="quarto-category-count">(2)</span></div><div class="category" data-category="c3Bhcmstbmxw">spark-nlp <span class="quarto-category-count">(1)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<p>Geopolitical events with no clear end in sight, tectonic shifts in technology, and the vie for its hegemony by the power-hungry is rewriting investment decisions around the world. This churn will increase volatility further in the equity markets. Looking for capital preservation with predictable returns in 2026 is completely reasonable and recommended.</p>
+<section id="waning-interest-of-fiis" class="level3">
+<h3 class="anchored" data-anchor-id="waning-interest-of-fiis">Waning interest of FIIs</h3>
+<p>Since 2024, FIIs have been selling indian equities. In 2025 they net sold Rs 1.2 lac crore, and in the first three months of 2026, they offloaded Rs 1 lac crore (exceeding 2025’s trends). FIIs ignored the GST reduction, the strong corporate earnings, the improving economic indicators, as well the various growth-inducive measures announced in the Union Budget FY2027 and the recent India-EU free trade agreement (FTA). They have sold on the backdrop of a falling rupee indicating no revival in the rupee in the short run or medium term - implying the dollar will remain strong for the foreseeable future making indian equities less attractive for foreign investors.</p>
+</section>
+<section id="liquidity-tightening" class="level3">
+<h3 class="anchored" data-anchor-id="liquidity-tightening">Liquidity tightening</h3>
+<p>To stall the falling rupee, RBI intervened on several ocassions - sold dollars and bought rupees. These interventions come at a cost. It sucks liquidity out of the market. While RBI infused liquidity back into the system via OMO of about Rs 4.2 trillion, and maintained soft stance on interest rates, the liquidity conditions is getting tight.</p>
+<p>Yields have experienced an upward trend since November 2025, with the benchmark 10-year yield rising from around 6.54% in November 2025 to over 6.8% by late March 2026, hitting 16-month highs. High Credit-deposit ratios in the banking sector and cash demand will continue to put pressure on liquidity in the system, which will continue to push bond yields higher. RBI recently cancelled two T-Bill issuance on account of elevated bids. Front-loading government borrowing in the first quarter of the coming FY will further push yields higher.</p>
+</section>
+<section id="west-asia-conflict-energy-prices" class="level3">
+<h3 class="anchored" data-anchor-id="west-asia-conflict-energy-prices">West Asia conflict, energy prices</h3>
+<p>The Israel-US-Iran conflict has destabilized the middle east, shocked the energy supply chain and pushed energy prices up. It will remain so for the near to medium term, and we are yet to see or assess the impact of the instability in the middle east, the strained relationships due to Iran’s retaliation. The energy dynamics in this region will heighten uncertainty around india’s energy supplies and prices. Higher energy prices will put pressure on inflation whether or not it is passed through fully. The effects will surface in the next few months.</p>
+</section>
+<section id="inflation-expectations-interest-rate-pressure" class="level3">
+<h3 class="anchored" data-anchor-id="inflation-expectations-interest-rate-pressure">Inflation expectations, interest rate pressure</h3>
+<p>High inflation due to energy prices will likely push RBI towards a more hawkish stance. To rein inflation expectations, we might see rate hikes in the coming months. Higher interest rates will dampen sentiments, demand, and earnings.</p>
+<p>Even if the cascade of events become less negative, it is unlikely the Indian equity markets will show a promising year. Weakening rupee, geopolitical frictions, FIIs on the sidelines, and exaggerated valuation of indian stocks will generate likely keep equity markets muted.</p>
+</section>
+<section id="attractiveness-of-bonds-potential-tax-reliefs" class="level3">
+<h3 class="anchored" data-anchor-id="attractiveness-of-bonds-potential-tax-reliefs">Attractiveness of Bonds, potential tax reliefs</h3>
+<p>Higher bond yields will be an attractive option for capital preservation in the medium term (2-3 years.) At the moment, fixed income returns have complicated tax compliance needs. They are treated differently than equity market gains. However, there has been a lot of noise in the financial community to level the playing field between equity and fixed income gains. If this happens, it will make bonds even more attractive.</p>
+<p>Investing in government bonds and highly rated corporate bonds for capital preservation and predictable returns in 2026 is a wise choice.</p>
+<!--
+
+### Other material
+
+taxThe government has recently announced a resolution to the bond tax
+issue, which has been a major concern for investors. The resolution is
+expected to provide some relief to investors, but it may not be enough
+to offset the other negative factors affecting the bond markets.
+
+This will further put pressure on the bond markets and make it more
+difficult for companies to raise money.
+
+This is a sign that investors are concerned about the state of the
+economy and are looking for safer investments.
+
+The yields have been rising, and the cost of borrowing has increased.
+This is a sign that investors are concerned about the state of the
+economy and are looking for safer investments.
+
+This is a sign that investors are concerned about the state of the
+economy and are looking for safer investments.
+
+This was a sign that the central bank is concerned about the currency
+and is willing to take action to support it. This intervention may have
+temporarily stabilized the rupee, but it also indicates that there are
+underlying issues with the currency that need to be addressed. FII
+outflow has impacted the liquidity in the markets. This can be seen in
+the bond markets since the yields have been rising. The stock markets
+have also been affected, with the Nifty and Sensex falling from their
+highs.
+
+Last month, Now we are in the middle o a geopolitical crisis in the
+middle east
+
+Early this year, the RBI to thwart the fall of the rupee intervnedned
+
+The war in Ukraine is still ongoing, and it has had a significant impact
+on the global economy. The US and its allies have imposed sanctions on
+Russia, which has led to a rise in energy prices and inflation. This has
+also led to a slowdown in global economic growth, which has affected the
+stock markets around the world.
+
+The reasons for this are varied, but some of the key factors include
+rising interest rates in developed markets, geopolitical tensions, and
+concerns about the global economy.
+
+However, based on current trends and economic indicators, it seems that
+2026 may not be a favorable year for Indian equities.
+
+and it's important to consider various factors before making any
+investment decisions. Here are some reasons why 2026 may not be a good
+year for Indian equities:
+
+### What invest in?
+
+and hopefully an impartial tax treatment towards bonds in the coming
+months
+
+-->
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="b3BpbmlvbiUyQ2ZpbmFuY2U=" data-listing-date-sort="1774463400000" data-listing-file-modified-sort="1774495394215" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="904">
-<div class="thumbnail"><a href="./posts/captial-markets-2026/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/captial-markets-2026/index.html" class="no-external">India 2026: Bonds over Equities?</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('b3Bpbmlvbg=='); return false;">opinion</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZmluYW5jZQ=='); return false;">finance</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/captial-markets-2026/index.html" class="no-external">
-<p>Some thoughts on why 2026 may not be a good year for Indian equities and why debt instruments may be a better choice.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/captial-markets-2026/index.html" class="no-external">
-<div class="listing-date">
-Mar 26, 2026
-</div>
-<div class="listing-author">
-sandeep
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="cHl0aG9uJTJDYmFua2luZyUyQ3JiaSUyQ2RhdGEtc2NpZW5jZSUyQ2xlYXJuaW5n" data-listing-date-sort="1773945000000" data-listing-file-modified-sort="1774328704482" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2489">
-<div class="thumbnail"><a href="./posts/atm-rbi-data-analysis/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/atm-rbi-data-analysis/index.html" class="no-external">On Debit and Credit transactions in the banking system - part 2</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">python</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YmFua2luZw=='); return false;">banking</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cmJp'); return false;">rbi</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGF0YS1zY2llbmNl'); return false;">data-science</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bGVhcm5pbmc='); return false;">learning</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/atm-rbi-data-analysis/index.html" class="no-external">
-<p>Analyzing RBIs monthly data on credit and debit transactions.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/atm-rbi-data-analysis/index.html" class="no-external">
-<div class="listing-date">
-Mar 20, 2026
-</div>
-<div class="listing-author">
-sandeep
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="cHl0aG9uJTJDYmFua2luZyUyQ3JiaSUyQ2RhdGEtc2NpZW5jZSUyQ2xlYXJuaW5n" data-listing-date-sort="1772044200000" data-listing-file-modified-sort="1774248159643" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1336">
-<div class="thumbnail"><a href="./posts/atm-rbi-data-etl/index.html" class="no-external">
-
-<img loading="lazy" src="./posts/atm-rbi-data-etl/bs_image.jpeg" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/atm-rbi-data-etl/index.html" class="no-external">On Debit and Credit transactions in the banking system - part 1</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">python</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YmFua2luZw=='); return false;">banking</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cmJp'); return false;">rbi</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGF0YS1zY2llbmNl'); return false;">data-science</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bGVhcm5pbmc='); return false;">learning</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/atm-rbi-data-etl/index.html" class="no-external">
-<p>Getting RBIs monthly data on credit and debit transactions.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/atm-rbi-data-etl/index.html" class="no-external">
-<div class="listing-date">
-Feb 26, 2026
-</div>
-<div class="listing-author">
-sandeep
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="cHl0aG9uJTJDZXF1aXR5JTJDZnBpJTJDZGF0YS1zY2llbmNlJTJDbGVhcm5pbmc=" data-listing-date-sort="1771525800000" data-listing-file-modified-sort="1774248159661" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1244">
-<div class="thumbnail"><a href="./posts/fpi_analysis/index.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/fpi_analysis/www/monthly_figure.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/fpi_analysis/index.html" class="no-external">FPIs in India: 2024-2025</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">python</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZXF1aXR5'); return false;">equity</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZnBp'); return false;">fpi</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGF0YS1zY2llbmNl'); return false;">data-science</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bGVhcm5pbmc='); return false;">learning</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/fpi_analysis/index.html" class="no-external">
-<p>Organizing NSDL’s data on FPI activities in the Indian equity markets.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/fpi_analysis/index.html" class="no-external">
-<div class="listing-date">
-Feb 20, 2026
-</div>
-<div class="listing-author">
-sandeep
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="ZGF0YS1zY2llbmNlJTJDcHl0aG9uJTJDcGFuZGFzJTJDZGF0ZS10aW1l" data-listing-date-sort="1769279400000" data-listing-file-modified-sort="1774248159660" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="281">
-<div class="thumbnail"><a href="./posts/date_tricks/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/date_tricks/index.html" class="no-external">Discovering date formats in Spreadsheets using Python</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGF0YS1zY2llbmNl'); return false;">data-science</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">python</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cGFuZGFz'); return false;">pandas</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGF0ZS10aW1l'); return false;">date-time</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/date_tricks/index.html" class="no-external">
-<p>Working with Date and Time formats</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/date_tricks/index.html" class="no-external">
-<div class="listing-date">
-Jan 25, 2026
-</div>
-<div class="listing-author">
-sandeep
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="cHlzcGFyayUyQ3NwYXJrLW5scA==" data-listing-date-sort="1749321000000" data-listing-file-modified-sort="1774248159666" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="232">
-<div class="thumbnail"><a href="./posts/install-spark/index.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/install-spark/index.html" class="no-external">Installing Spark/PySpark/Spark-NLP</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('cHlzcGFyaw=='); return false;">pyspark</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c3Bhcmstbmxw'); return false;">spark-nlp</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/install-spark/index.html" class="no-external">
-For a project dealing with medical notes, I wanted to experiment with a spark-nlp package put out by the John Snow Labs. The main objective of the task was to detect…
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/install-spark/index.html" class="no-external">
-<div class="listing-date">
-Jun 8, 2025
-</div>
-<div class="listing-author">
-sandeep
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
