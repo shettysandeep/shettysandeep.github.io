@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/vertex-ai/index.html",
       "/posts/captial-markets-2026/index.html",
       "/posts/atm-rbi-data-analysis/index.html",
       "/posts/atm-rbi-data-etl/index.html",
