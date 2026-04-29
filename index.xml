@@ -2040,54 +2040,5 @@ font-style: inherit;">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.1.
   <guid>https://shettysandeep.github.io/posts/install-spark/</guid>
   <pubDate>Sat, 07 Jun 2025 18:30:00 GMT</pubDate>
 </item>
-<item>
-  <title>Building an app using Vertex AI</title>
-  <link>https://shettysandeep.github.io/posts/vertex-ai/</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p>Using Google Cloud is intimidating. The documentation is immense and just the copious amount of documentation is not very helpful. Like in the doors of perception there is to much overwhelming madness in the world or suchness that the Mind-tool filters us for our sanity.</p>
-<p>The part that I found most difficult to wrap my head around was authentication. I was not able to understand how to set it up as well as in some cases when things went through where and who authenticated what. Becuae of this I was not able to understand how to recreate it so I can teach it to someone else.</p>
-<p>It took me a while but now I think I can explain the fundamental items to you.</p>
-<p>There are some key concepts that one needs to understand. These are like building blocks. Understnading these ones will make someone to than easy to read the documentation, buikd studd, etc.</p>
-<p>Facing an isse with ‘error’: {‘code’: 400, ‘message’: ’Multiple tools are supported only when they are all search tools</p>
-<p>What is a staging bucket for the API? How does authentication work with Vertex AI?</p>
-<p>what is a resource? what is a service account?</p>
-<p>Navigating Google Cloud for its services and configurations can be complex, especially when setting up a Retrieval-Augmented Generation (RAG) agent. Below is a guide to help you understand the necessary configurations for your RAG agent using Vertex AI.</p>
-<section id="google-cloud-project-and-location" class="level3">
-<h3 class="anchored" data-anchor-id="google-cloud-project-and-location">1. Google Cloud Project and Location</h3>
-<ul>
-<li><strong>GOOGLE_CLOUD_PROJECT</strong>: This is the ID of your Google Cloud project.</li>
-<li><strong>GOOGLE_CLOUD_LOCATION</strong>: This specifies the location where your Vertex AI resources will be deployed. For example, <code>europe-west1</code>. ### 2. RAG Corpus</li>
-<li><strong>RAG_CORPUS</strong>: This is the identifier for your existing corpus in Vertex RAG Engine. It should be in the format: <code>projects/&lt;PROJECT_NUMBER&gt;/locations/&lt;LOCATION&gt;/ragCorpora/&lt;CORPUS_ID&gt;</code>.</li>
-</ul>
-<p>how to get here? if your files are on the local machine. how do you get them to the staging bucket? you can use gsutil command line tool to upload files to the staging bucket. For example, you can run the following command in your terminal: <code>bashgsutil cp /path/to/your/files/* gs://your-bucket-name/</code> This command will copy all files from your local directory to the specified staging bucket in Google Cloud Storage. Make sure to replace <code>/path/to/your/files/*</code> with the actual path to your files and <code>gs://your-bucket-name/</code> with the name of your staging bucket.</p>
-</section>
-<section id="staging-bucket" class="level3">
-<h3 class="anchored" data-anchor-id="staging-bucket">3. Staging Bucket</h3>
-<ul>
-<li><strong>STAGING_BUCKET</strong>: This is the name of the Google Cloud Storage bucket where you will stage your agent deployment files. It should follow the format: <code>gs://your-bucket-name</code>. ### 4. Agent Engine ID</li>
-<li><strong>AGENT_ENGINE_ID</strong>: This is the identifier for your Agent Engine in Vertex AI. It should be in the format: <code>projects/&lt;PROJECT_NUMBER&gt;/locations/&lt;LOCATION&gt;/reasoningEngines/&lt;AGENT_ENGINE_ID&gt;</code>. ### Example Configuration</li>
-</ul>
-<pre class="env"><code>GOOGLE_CLOUD_PROJECT=eqty-rpt-sumrizr-008
-GOOGLE_CLOUD_LOCATION=europe-west1
-RAG_CORPUS=projects/123/locations/europe-west1/ragCorpora/456
-STAGING_BUCKET=gs://eqty-rpt-bucket
-AGENT_ENGINE_ID=projects/123/locations/europe-west1/reasoningEngines/789</code></pre>
-</section>
-<section id="conclusion" class="level3">
-<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
-<p>Make sure to replace the placeholder values with your actual project details. Properly configuring these environment variables is crucial for the successful deployment and operation of your RAG agent on Vertex AI.</p>
-
-
-</section>
-
- ]]></description>
-  <guid>https://shettysandeep.github.io/posts/vertex-ai/</guid>
-  <pubDate>Wed, 29 Apr 2026 06:32:35 GMT</pubDate>
-</item>
 </channel>
 </rss>
