@@ -1920,6 +1920,32 @@ Name: count, dtype: int64</code></pre>
   <pubDate>Sat, 24 Jan 2026 18:30:00 GMT</pubDate>
 </item>
 <item>
+  <title>LLM Bias in Downstream Applications</title>
+  <dc:creator>sandeep </dc:creator>
+  <link>https://shettysandeep.github.io/posts/llm-bias/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>Many organizations, as end users of large language models (LLMs), use LLMs mainly for their in-context learning abilities. Typical applications may include qualitative coding, labeling, extracting themes, and creating informative summaries given the project specific qualitative data as context.</p>
+<p>While LLMs are immensely useful (and quick) in these downstream tasks, they are also biased. <a href="https://lnkd.in/eJvvEYVc">Dong et al (2024)</a> show that regardless of whether biases exist in the project data, the biases inherent in LLMs travel to downstream applications.</p>
+<p>In machine translation context, <a href="https://lnkd.in/evXkCVwS">Mvechura (2022)</a> escribes that when there is an “unresolvable ambiguity”, say, in the gender of an object referenced, LLMs make an “unjustified assumption” to resolve this ambiguity - a result of the preexisting biases in the training data of the LLMs - leading to a biased gender resolution in the output.</p>
+<p><a href="https://lnkd.in/eqtx-Crd">Parrish et al (2022)</a> find a similar observation in question-answer scenarios using LLMs. They show that with enough context LLMs usually perform well for most question-answer, however, when the context is under-informative these models rely on stereotypes for answering. So, sufficient and clear context is important.</p>
+<p>Speaking of context, a note on the length of context seems pertinent here. <a href="https://lnkd.in/ePHaUgBH">Liu et al (2023)</a> show how ineffective LLMs are using long contexts, where LLMs often pay attention only to the material at the beginning or at the end of the context and simply ignoring the middle of the context. So, long contexts may be detrimental (and you may not have all the attention you need!).</p>
+<p>While there are ways to mitigate bias (see <a href="https://arxiv.org/pdf/2309.00770">Gallegos et al 2024</a>), and not all easy to implement, you also want to be careful in debiasing because if there is bias in the input data you don’t want that to be masked - as that is probably an important finding. So, it is important to be aware of the biases in LLMs and how they may affect your downstream applications.</p>
+
+
+
+ ]]></description>
+  <category>LLM</category>
+  <category>data-science</category>
+  <category>bias</category>
+  <guid>https://shettysandeep.github.io/posts/llm-bias/</guid>
+  <pubDate>Wed, 19 Nov 2025 18:30:00 GMT</pubDate>
+</item>
+<item>
   <title>Installing Spark/PySpark/Spark-NLP</title>
   <dc:creator>sandeep </dc:creator>
   <link>https://shettysandeep.github.io/posts/install-spark/</link>
