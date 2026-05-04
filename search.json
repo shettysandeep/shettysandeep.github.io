@@ -21,34 +21,6 @@
     "text": "Need to write 100 posts in 2 months!!\n\nNH quality dispersion note. (put out more)\nFPI data snippets slowly dripped (about 5 posts)\n\nconcentration, etc.\n\nAny other data and methods.\nBond notes and calcs.\npaper review and thougths. where ever the heart goes.\nmoney supply\nRBI monetary tools\nTypes of risk"
   },
   {
-    "objectID": "posts/how-to-run-pyshiny/excessstuff.html",
-    "href": "posts/how-to-run-pyshiny/excessstuff.html",
-    "title": "sandeep shetty",
-    "section": "",
-    "text": "if you want to list"
-  },
-  {
-    "objectID": "posts/how-to-run-pyshiny/excessstuff.html#google-gcloud",
-    "href": "posts/how-to-run-pyshiny/excessstuff.html#google-gcloud",
-    "title": "sandeep shetty",
-    "section": "Google gcloud",
-    "text": "Google gcloud\nHead in the clouds\nAfter a lot of struggle finally was able to push and deploy to google cloud.\ndocker tag dahi-dimag-linux europe-west1-docker.pkg.dev/pro-gecko-482907-h1/test-repo/fpi-dahi-dimag-linux\\n\ndocker push europe-west1-docker.pkg.dev/pro-gecko-482907-h1/test-repo/dahi-dimag-linux\ndocker push europe-west1-docker.pkg.dev/pro-gecko-482907-h1/test-repo/fpi-dahi-dimag-linux\nThe deployment gave me a lot of pain.\ndocker build -t dahi-dimag-macster .\ndocker run -p 8080:8080 dahi-dimag-macster\ndocker -D buildx build --platform=linux/amd64 -t dahi-dimag-linux .\ndocker run -p 8080:8080 dahi-dimag-linux\nRemeber the xperiment with ss -tulnd\nI need to simmrize this at some point for my edification.\nNow that we have more or less figured out the cloud hosting. The next step is to expand and refine the app.\nHow to containerize? Before getting into the containerizing business, ensure that the app is working fine and that you have the right file in hand.\nTo make the step of containerizing easy, move your file and the dependencies (such as data - folder strucutre, etc) into a new folder.\nCheck if the app inside this folder is running as expected.\nNow you have taken small step towards sandboxing, except the Python environment, which is installed somewhere else. Now the task is to built a container that will house everything it will need - from python to the packages and the data that your app relies upon.\nStep 1. Is your app running on your machine? Step 2. If you have built yours in a\nHow I went about pushing my Shiny app to Google cloud (RUN). So I built an app using FPI data to allow users to see the data interactively. I just set up a first iteration of the project. And have ideas how to extend this to other insights.\n\nThemes\nI had some issue with shinywatch when setting up the docker file with a slim python. I also need a gcc compiler to get the libsass for executing the theme files.\n\nThe container method. docker run -p 8080:8000 fpi-app"
-  },
-  {
-    "objectID": "posts/how-to-run-pyshiny/excessstuff.html#facing-some-port-issues-with-gc-run",
-    "href": "posts/how-to-run-pyshiny/excessstuff.html#facing-some-port-issues-with-gc-run",
-    "title": "sandeep shetty",
-    "section": "facing some port issues with GC run",
-    "text": "facing some port issues with GC run\nhttp://127.0.0.1:8080"
-  },
-  {
-    "objectID": "posts/how-to-run-pyshiny/excessstuff.html#build-local-image-with-linuxamd---arch-doesnt-work-for-some-reason",
-    "href": "posts/how-to-run-pyshiny/excessstuff.html#build-local-image-with-linuxamd---arch-doesnt-work-for-some-reason",
-    "title": "sandeep shetty",
-    "section": "Build local image with linux/AMD - arch doesn’t work for some reason",
-    "text": "Build local image with linux/AMD - arch doesn’t work for some reason\ndocker buildx build –platform linux/amd64 -t fpi_amd:latest\n\nscrap"
-  },
-  {
     "objectID": "posts/atm-rbi-data-analysis/index.html",
     "href": "posts/atm-rbi-data-analysis/index.html",
     "title": "On Debit and Credit transactions in the banking system - part 2",
@@ -137,6 +109,6 @@
     "href": "index.html",
     "title": "data intent",
     "section": "",
-    "text": "List the images in the GC registry\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHead in the clouds\n\n\n\npython\n\nshiny\n\ngoogle cloud\n\ndeployment\n\n\n\nDeploying Python Shiny App on Google Cloud.\n\n\n\n\n\nApr 26, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nIndia 2026: Bonds over Equities?\n\n\n\nopinion\n\nfinance\n\n\n\nSome thoughts on why 2026 may not be a good year for Indian equities and why debt instruments may be a better choice.\n\n\n\n\n\nMar 26, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nOn Debit and Credit transactions in the banking system - part 2\n\n\n\npython\n\nbanking\n\nrbi\n\ndata-science\n\nlearning\n\n\n\nAnalyzing RBIs monthly data on credit and debit transactions.\n\n\n\n\n\nMar 20, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nOn Debit and Credit transactions in the banking system - part 1\n\n\n\npython\n\nbanking\n\nrbi\n\ndata-science\n\nlearning\n\n\n\nGetting RBIs monthly data on credit and debit transactions.\n\n\n\n\n\nFeb 26, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nFPIs in India: 2024-2025\n\n\n\npython\n\nequity\n\nfpi\n\ndata-science\n\nlearning\n\n\n\nOrganizing NSDL’s data on FPI activities in the Indian equity markets.\n\n\n\n\n\nFeb 20, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nDiscovering date formats in Spreadsheets using Python\n\n\n\ndata-science\n\npython\n\npandas\n\ndate-time\n\n\n\nWorking with Date and Time formats\n\n\n\n\n\nJan 25, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nLLM Bias in Downstream Applications\n\n\n\nLLM\n\ndata-science\n\nbias\n\n\n\n\n\n\n\n\n\nNov 20, 2025\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nInstalling Spark/PySpark/Spark-NLP\n\n\n\npyspark\n\nspark-nlp\n\n\n\n\n\n\n\n\n\nJun 8, 2025\n\n\nsandeep\n\n\n\n\n\nNo matching items"
+    "text": "Head in the clouds\n\n\n\npython\n\nshiny\n\ngoogle cloud\n\ndeployment\n\n\n\nDeploying Python Shiny App on Google Cloud.\n\n\n\n\n\nApr 26, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nIndia 2026: Bonds over Equities?\n\n\n\nopinion\n\nfinance\n\n\n\nSome thoughts on why 2026 may not be a good year for Indian equities and why debt instruments may be a better choice.\n\n\n\n\n\nMar 26, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nOn Debit and Credit transactions in the banking system - part 2\n\n\n\npython\n\nbanking\n\nrbi\n\ndata-science\n\nlearning\n\n\n\nAnalyzing RBIs monthly data on credit and debit transactions.\n\n\n\n\n\nMar 20, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nOn Debit and Credit transactions in the banking system - part 1\n\n\n\npython\n\nbanking\n\nrbi\n\ndata-science\n\nlearning\n\n\n\nGetting RBIs monthly data on credit and debit transactions.\n\n\n\n\n\nFeb 26, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nFPIs in India: 2024-2025\n\n\n\npython\n\nequity\n\nfpi\n\ndata-science\n\nlearning\n\n\n\nOrganizing NSDL’s data on FPI activities in the Indian equity markets.\n\n\n\n\n\nFeb 20, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nDiscovering date formats in Spreadsheets using Python\n\n\n\ndata-science\n\npython\n\npandas\n\ndate-time\n\n\n\nWorking with Date and Time formats\n\n\n\n\n\nJan 25, 2026\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nLLM Bias in Downstream Applications\n\n\n\nLLM\n\ndata-science\n\nbias\n\n\n\n\n\n\n\n\n\nNov 20, 2025\n\n\nsandeep\n\n\n\n\n\n\n\n\n\n\n\n\nInstalling Spark/PySpark/Spark-NLP\n\n\n\npyspark\n\nspark-nlp\n\n\n\n\n\n\n\n\n\nJun 8, 2025\n\n\nsandeep\n\n\n\n\n\nNo matching items"
   }
 ]
