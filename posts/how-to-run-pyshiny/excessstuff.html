@@ -6,11 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="sandeep">
-<meta name="dcterms.date" content="2026-04-26">
-<meta name="description" content="Deploying Python Shiny App on Google Cloud.">
 
-<title>Head in the clouds – sandeep shetty</title>
+<title>excessstuff – sandeep shetty</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -150,46 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">Head in the clouds</h1>
-                  <div>
-        <div class="description">
-          Deploying Python Shiny App on Google Cloud.
-        </div>
-      </div>
-                          <div class="quarto-categories">
-                <div class="quarto-category">python</div>
-                <div class="quarto-category">shiny</div>
-                <div class="quarto-category">google cloud</div>
-                <div class="quarto-category">deployment</div>
-              </div>
-                  </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>sandeep </p>
-            </div>
-    </div>
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">April 26, 2026</p>
-      </div>
-    </div>
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block"></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
@@ -199,89 +157,73 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-
-<p>You have a Python Shiny app that runs great locally with the following command on the terminal:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">shiny</span> run <span class="at">--reload</span> <span class="at">--launch-browser</span> app.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>It fires up a browser and serves the app at <code>localhost:8080</code> or some other port (the last four digits), and now you want to deploy it on the internet for general public consumption or feedback.</p>
-<p>There are several ways one can achieve this. <code>Shinyapp.io</code> or <code>Posit Cloud Connect</code> seems like a natural choice as they are well suited for Shiny’s foundational design choices with “sticky” load balancing and such. Among other options are cloud platforms like Google Cloud, AWS or Azure. Given the variety of services that come bundled with a cloud service you may be tempted to deploy your app with one of them.</p>
-<p>Google Cloud (GC) offers a few alternatives to deploy a Python shiny app: a containerized mode; connecting the project Github repo to GC; and thirdly uploading the app script and the data to the Google cloud. These options present different degrees of difficulties and suitability based on the complexity of the app. In this note, I show how to deploy the app to Google cloud (gc) using containers. This is a simple article to orient you with just that using Google Cloud.</p>
-<section id="containerizing-the-shiny-app" class="level3">
-<h3 class="anchored" data-anchor-id="containerizing-the-shiny-app">Containerizing the Shiny app</h3>
-<p>Containerizing means putting your script (<code>app.py</code>) and all that it depends upon to run smoothly (libraries, dependencies, configuration, data) into a ‘container’.</p>
-<p>Containers are like packages that are self-sufficient, isolated, and standardized for a particular use case. They are portable and run consistently across any environment.</p>
-<p>To containerize your app you need:</p>
-<ul>
-<li><p><code>Docker</code> installed, which you can install by following the instructions <a href="https://www.docker.com/get-started/">here</a>;</p></li>
-<li><p>a `requirements.txt` doc, which is just a list of python packages you require to run your app (you can obtain it by executing <code>pip freeze &gt; requirements.txt</code> from a terminal after activating the specific python virtual environment you used for the app;</p></li>
-<li><p>a <code>Dockerfile</code> file (with no extension) that provides instructions on how to set up the image (a machine within your machine with the specs you need to run your app. It becomes self-contained and thus can be shared around or deployed to the cloud.)</p></li>
-</ul>
-<p>To sandbox your experiments with Docker and containers, I recommend putting your <code>app.py</code> script, your dataset, and the above documents into a “test” folder. You can subsequently delete this once you have the app running smoothly.</p>
-<p>When building the image, if you are on a Mac, you will need to build the image that is compatible with Linux platform. By default Docker builds the image leveraging your computer architecture. In the case of my M2 mac, the images created under arm64 architecture (of non-Intel macbooks) will not run on the GC. You will need an image that is linux/amd64 compatible one. The below command will help.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> buildx build <span class="at">--platform</span> linux/amd64 <span class="at">-t</span> name_of_image</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Before you move to the next step of dealing with GC, ensure that your container is running as expected - i.e.&nbsp;when you run the docker container it fires up a browser and serves your app at <code>localhost:8080</code> or some other port.</p>
-<p>An example of a <code>Dockerfile</code> for a Python Shiny app is as follows:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> python:3.11-slim</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> build-essential <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /app</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the requirements file and install dependencies first (for efficient Docker caching)</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> requirements.txt .</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">pip</span> install <span class="at">--no-cache-dir</span> <span class="at">--upgrade</span> <span class="at">-r</span> requirements.txt</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the rest of the application code into the container</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> . .</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Expose the port the app will run on</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="kw">EXPOSE</span> 8080</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Command to run the application using uvicorn when the container starts</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="kw">CMD</span> [ <span class="st">"shiny"</span>,<span class="st">"run"</span>,<span class="st">"app.py"</span>,<span class="st">"--host"</span>,<span class="st">"0.0.0.0"</span>,<span class="st">"--port"</span>,<span class="st">"8080"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>I had some issue with <code>shinywatch</code> themes when running the <code>Dockerfile</code> with a <code>slim</code> python. I needed a <code>gcc</code> compiler to get the <code>libsass</code> for executing the theme files in my application. The line above</p>
+<p>if you want to list</p>
+<section id="list-the-images-in-the-gc-registry" class="level4">
+<h4 class="anchored" data-anchor-id="list-the-images-in-the-gc-registry">List the images in the GC registry</h4>
+<p>You can list the images in your GC registry with the below command.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> container images list <span class="at">--repository</span><span class="op">=</span>europe-west1-docker.pkg.dev/pro-gecko-482907-h1/test-repo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="setting-up-signing-and-authenticating-gc-account" class="level3">
-<h3 class="anchored" data-anchor-id="setting-up-signing-and-authenticating-gc-account">Setting up, signing and authenticating GC account</h3>
-<p>There are a couple of steps needed to access GC services:</p>
-<ol type="1">
-<li><p>Sign up on <a href="https://cloud.google.com/?hl=en">GC</a> (account creation, payment setup.)</p></li>
-<li><p>Install <a href="https://docs.cloud.google.com/sdk/docs/install-sdk">Google Cloud CLI</a>.</p>
+<section id="google-gcloud" class="level2">
+<h2 class="anchored" data-anchor-id="google-gcloud">Google gcloud</h2>
+<p>Head in the clouds</p>
+<p>After a lot of struggle finally was able to push and deploy to google cloud.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> tag dahi-dimag-linux europe-west1-docker.pkg.dev/pro-gecko-482907-h1/test-repo/fpi-dahi-dimag-linux\n</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> push europe-west1-docker.pkg.dev/pro-gecko-482907-h1/test-repo/dahi-dimag-linux</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> push europe-west1-docker.pkg.dev/pro-gecko-482907-h1/test-repo/fpi-dahi-dimag-linux</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">The</span> deployment gave me a lot of pain.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> dahi-dimag-macster .</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-p</span> 8080:8080 dahi-dimag-macster</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> <span class="at">-D</span> buildx build <span class="at">--platform</span><span class="op">=</span>linux/amd64 <span class="at">-t</span> dahi-dimag-linux .</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-p</span> 8080:8080 dahi-dimag-linux</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Remeber the xperiment with ss -tulnd</p>
+<p>I need to simmrize this at some point for my edification.</p>
+<p>Now that we have more or less figured out the cloud hosting. The next step is to expand and refine the app.</p>
+<p>How to containerize? Before getting into the containerizing business, ensure that the app is working fine and that you have the right file in hand.</p>
+<p>To make the step of containerizing easy, move your file and the dependencies (such as data - folder strucutre, etc) into a new folder.</p>
+<p>Check if the app inside this folder is running as expected.</p>
+<p>Now you have taken small step towards sandboxing, except the Python environment, which is installed somewhere else. Now the task is to built a container that will house everything it will need - from python to the packages and the data that your app relies upon.</p>
+<p>Step 1. Is your app running on your machine? Step 2. If you have built yours in a</p>
+<p>How I went about pushing my Shiny app to Google cloud (RUN). So I built an app using FPI data to allow users to see the data interactively. I just set up a first iteration of the project. And have ideas how to extend this to other insights.</p>
+<section id="themes" class="level3">
+<h3 class="anchored" data-anchor-id="themes">Themes</h3>
+<p>I had some issue with shinywatch when setting up the docker file with a slim python. I also need a gcc compiler to get the libsass for executing the theme files.</p>
 <blockquote class="blockquote">
-<p>The GC command line interface (CLI) enables you to start/stop services, upload containers, folders to the cloud from the terminal. You can also do the same from the GC’s web console but I find the console a tad confusing with too much information and parameters to sift through. I prefer the terminal.</p>
-</blockquote></li>
-<li><p>Authenticate your GC account (quite straightforward) via terminal to use the GC CLI. Follow instructions <a href="https://docs.cloud.google.com/docs/authentication/gcloud" title="Authenticate GC tips">here</a></p></li>
-</ol>
-<p>Now you should have access to <code>gcloud</code> command on the terminal. This offers you plenty of flexibility and access to information in a streamlined way. See the <code>gcloud</code> <a href="https://docs.cloud.google.com/sdk/docs/cheatsheet#:~:text=a%20container%20image.-,Virtual%20Machines%20&amp;%20Compute%20Engine,VM%20instance%20by%20using%20SSH." title="Google cloud cheat sheet">cheatsheet</a>.</p>
+<p>The container method. docker run -p 8080:8000 fpi-app</p>
+</blockquote>
 </section>
-<section id="gc-operations-from-the-terminal" class="level3">
-<h3 class="anchored" data-anchor-id="gc-operations-from-the-terminal">GC operations from the terminal</h3>
-<p>After you create an account on GC you will be defaulted into a project that will have a <code>Project ID</code> with a human-readable name. The <code>Project ID</code> is a”globally” unique identifier for your project. You could continue working under this project. I’d recommend this for now to avoid being overwhelmed by the details in the documentation. But if you want to create a new one. See <a href="https://docs.cloud.google.com/resource-manager/docs/creating-managing-projects#:~:text=and%20resource%20name.-,Create%20a%20project,a%20billing%20account%20as%20applicable.">documentation</a></p>
-<p>The project that was created for me was <code>pro-gecko-482907-h1</code> and which is what I will use below in the commands. Please replace it with your own project ID. You can find your project ID on the GC console dashboard.</p>
-<p><strong>Create a repo under GC project</strong>.</p>
-<p>You habe to create a repository under your project to host the container image. You can do this from the GC console or via terminal with the below command. In my case, I created a repo called <code>test-repo</code> under the project <code>pro-gecko-482907-h1</code>. The command below will create a repo with the same name for you. You can change the name of the repo as you like. The command below will create a repo with the same name for you. You can change the name of the repo as you like.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> artifacts repositories create test-repo <span class="at">--repository-format</span><span class="op">=</span>docker <span class="at">--location</span><span class="op">=</span>europe-west1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Use the <code>--location</code> flag to specify the location that you want. It is not always obvious which location to choose and the nearest is not always the cheapest or best. The service that you are looking for should be available in the location you choose. This is most pertinent with Vertex and Gemini. But here I chose <code>europe-west1</code>. You can check the pricing and the locations <a href="https://cloud.google.com/artifact-registry/pricing?hl=en" title="GC registry pricing and locations">here</a>.</p>
-<p><strong>Make a copy of the local Docker image</strong></p>
-<p>Once you have built the local image, you need to make a copy of it with the name that is compatible with the GC registry. The below command will do that for you.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> tag fpi_amd europe-west1-docker.pkg.dev/pro-gecko-482907-h1/test-repo/fpi-amd-test:latest</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Push the app to the GC registry</strong></p>
-<p>After you have the image with the right name, you can push it to the GC registry with the below command.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> push europe-west1-docker.pkg.dev/pro-gecko-482907-h1/test-repo/fpi-amd-test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Run the app on GC Run</strong></p>
-<p>Now that you have the image in the GC registry, you can deploy it to GC Run with the below command. This will make your app available on the internet. You can access it via the URL provided by GC after deployment.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> run deploy fpi-amd-test <span class="at">--image</span> europe-west1-docker.pkg.dev/pro-gecko-482907-h1/test-repo/fpi-amd-test <span class="at">--platform</span> managed <span class="at">--region</span> europe-west1 <span class="at">--allow-unauthenticated</span> <span class="at">--max-instances</span> 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Hopefully, you should see the app running at the URL provided by GC after deployment. You can share this URL with others to access your app.</p>
-<p>If you would like to stop the app, you can do so with the below command.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> run services update fpi-amd-test <span class="at">--max-instances</span> 0 <span class="at">--region</span> europe-west1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>You could achieve the same from the GC console where you can set the auto-scaling to zero to stop the service. This will not delete the entire service and will maintain all its revisions and configuration so if you want to simply restart it again, you can do so.</p>
-<p>This will stop traffic and avoid costs while keeping the service configuration intact. You can restart it later by setting the <code>max-instances</code> back to 1 or more.</p>
 </section>
-<section id="conclusion" class="level3">
-<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
-<p>In this article, I showed how to deploy a Python Shiny app on Google Cloud using containers. This is just one way to deploy your app, and there are other options available depending on your needs and preferences. The key steps involved containerizing your app, setting up a GC account, and deploying the app to GC Run. With these steps, you can make your app accessible to anyone on the internet.</p>
+<section id="facing-some-port-issues-with-gc-run" class="level2">
+<h2 class="anchored" data-anchor-id="facing-some-port-issues-with-gc-run">facing some port issues with GC run</h2>
+<p>http://127.0.0.1:8080</p>
+</section>
+<section id="build-local-image-with-linuxamd---arch-doesnt-work-for-some-reason" class="level2">
+<h2 class="anchored" data-anchor-id="build-local-image-with-linuxamd---arch-doesnt-work-for-some-reason">Build local image with linux/AMD - arch doesn’t work for some reason</h2>
+<p>docker buildx build –platform linux/amd64 -t fpi_amd:latest</p>
+<section id="scrap" class="level3">
+<h3 class="anchored" data-anchor-id="scrap">scrap</h3>
+<!--
+Moreover, the official documentation
+has little guidance on deploying on other cBut you may still want to use GC to learn how to use GC services and
+either explore their other
+services for some of my work, and this task seemed like a good entry point into
+their cloud ecosystem.
+
+
+the right term) but can be a bit expensive if the size of the app is ilarger than
+the free tier. In this note, I walk you through the steps to host the shiny
+python app on Google Cloud (GC).
+
+through shinyapp.io, hugginface,
+or via cloud services like AWS, Azure, and Google cloud.
+In my experience, I found the process quite straightforward given all the help
+online. But I got stuck at a couple of places which consumed a lot of my time. I
+was just not interpreting the error from the GC correctly. But it was worthwhile
+to go down the circuitous path.
+-->
+</section>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
 
 
 </section>
