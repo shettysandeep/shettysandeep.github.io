@@ -8,8 +8,9 @@
 
 <meta name="author" content="sandeep">
 <meta name="dcterms.date" content="2026-07-10">
+<meta name="description" content="Extracting FPI AUC data from 2000-2026">
 
-<title>Extracting FPI Assets Under Custody (AUC) Data from NSDL – sandeep shetty</title>
+<title>FPI Assets Under Custody (AUC) Data from NSDL – sandeep shetty</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -152,8 +153,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Extracting FPI Assets Under Custody (AUC) Data from NSDL</h1>
-                                <div class="quarto-categories">
+      <h1 class="title">FPI Assets Under Custody (AUC) Data from NSDL</h1>
+                  <div>
+        <div class="description">
+          Extracting FPI AUC data from 2000-2026
+        </div>
+      </div>
+                          <div class="quarto-categories">
                 <div class="quarto-category">python</div>
                 <div class="quarto-category">equity</div>
                 <div class="quarto-category">fpi</div>
@@ -210,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The month name in the NSDL filenames changes between the full month name and the abbreviated month name. For example, for June 2026, the date part is <code>June152026</code>. However, for some other months, like December, the date part is <code>Dec152026</code>. So, we will have to try both formats to get the data. This is hard to keep track and makes little sense to try to check before making the call. It is better to exhaust the possibilities and run through it.</p>
 <p>Further, for each month there are two files, one for the 15th and one for the last day of the month (as it is fortnightly data). So, we will have to try both dates as well.</p>
 <p>We will try both the full month name and the abbreviated month name, and both the 15th and the last day of the month, and use the below code to generate the URLs for all months from 2020 to 2026. This is a simple procedural approach. One can tidy this up later.</p>
-<div id="8f186c72" class="cell" data-execution_count="3">
+<div id="8dd059cc" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> calendar</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -251,33 +257,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Now that we have the URLs, we can download the data and save it as CSV files. The following code will download the data for each URL and save it as a CSV file in the <code>auc_data/raw/</code> directory. Since there are multiple tables in the HTML file, it will save each table as a separate CSV file.</p>
 <p>Each fortnight’s spreadsheet has multiple tables, and we will save each table as a separate CSV file. The first table is the main table that we are interested in (<code>table0</code> as I call it below). The other tables are supplementary tables that provide additional information. We will save all the tables for each fortnight’s data.</p>
 <p>As you will see below in the code the <code>Header</code> is important to avoid <code>403</code> error. The NSDL website blocks requests that do not have a <code>User-Agent</code> header. The User-Agent header is used to identify the client software making the request. In this case, we are using a <code>User-Agent</code> string that mimics a web browser (Safari on macOS). This helps to avoid being blocked by the server. You have to find what is yours and use that. You can find your <code>User-Agent</code> string by searching for <code>"my user agent"</code> in a web browser.</p>
-<p>All the tables within each fortnight’s data are downloaded to a specific folder. Now, we will collect all the tables (i.e.&nbsp;<code>table0</code>) into one folder.</p>
-<div id="1cb560fe" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
+<div id="ad3db8f9" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># collect all table0 (of interest) into one place</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>source_dir <span class="op">=</span> <span class="st">"./auc_data/raw/"</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>target_dir <span class="op">=</span> <span class="st">"./auc_data/raw/table0"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>HEADER <span class="op">=</span> {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"User-Agent"</span>: <span class="st">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.4 Safari/605.1.15"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create target directory if needed</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>os.makedirs(target_dir, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>csv_files <span class="op">=</span> glob.glob(os.path.join(source_dir, <span class="st">"*.csv"</span>))</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>t0_files <span class="op">=</span> [f <span class="cf">for</span> f <span class="kw">in</span> csv_files <span class="cf">if</span> <span class="st">"table0"</span> <span class="kw">in</span> os.path.basename(f)]</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop and move all files</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_name <span class="kw">in</span> t0_files:</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct full file path</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    source_path <span class="op">=</span> os.path.join(source_dir, file_name)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure it's a file (skips subfolders)</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> os.path.isfile(source_path):</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        shutil.move(source_path, target_dir)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"All files transferred successfully."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> mn <span class="kw">in</span> date_range:</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(mn, headers<span class="op">=</span>HEADER)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">200</span>:</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        soup <span class="op">=</span> BeautifulSoup(response.text, <span class="st">"html.parser"</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> soup.find_all(<span class="st">"table"</span>):</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> key, table <span class="kw">in</span> <span class="bu">enumerate</span>(soup.find_all(<span class="st">"table"</span>)):</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                dat <span class="op">=</span> pandas.read_html(StringIO(<span class="bu">str</span>(table)))[<span class="dv">0</span>]</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                dat.to_csv(</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>                    <span class="ss">f"auc_data/raw/data_</span><span class="sc">{</span>mn<span class="sc">.</span>split(<span class="st">'/'</span>)[<span class="op">-</span><span class="dv">1</span>]<span class="sc">.</span>replace(<span class="st">'.html'</span>, <span class="st">''</span>)<span class="sc">}</span><span class="ss">_table</span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">.csv"</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>                    index<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Downloaded: </span><span class="sc">{</span>mn<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>All the tables within each fortnight’s data are downloaded to a specific folder. Now, we will collect all the tables (i.e.&nbsp;<code>table0</code>) into one folder.</p>
+<div id="ae1cbe59" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># collect all table0 (of interest) into one place</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>source_dir <span class="op">=</span> <span class="st">"./auc_data/raw/"</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>target_dir <span class="op">=</span> <span class="st">"./auc_data/raw/table0"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create target directory if needed</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>os.makedirs(target_dir, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>csv_files <span class="op">=</span> glob.glob(os.path.join(source_dir, <span class="st">"*.csv"</span>))</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>t0_files <span class="op">=</span> [f <span class="cf">for</span> f <span class="kw">in</span> csv_files <span class="cf">if</span> <span class="st">"table0"</span> <span class="kw">in</span> os.path.basename(f)]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop and move all files</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_name <span class="kw">in</span> t0_files:</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct full file path</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    source_path <span class="op">=</span> os.path.join(source_dir, file_name)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure it's a file (skips subfolders)</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> os.path.isfile(source_path):</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        shutil.move(source_path, target_dir)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"All files transferred successfully."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now, you have all the FPI AUC data from the NSDL into one folder. In the next post, we will clean, organize, and bring them together.</p>
 
