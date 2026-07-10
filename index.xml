@@ -36,7 +36,7 @@
 <p>The month name in the NSDL filenames changes between the full month name and the abbreviated month name. For example, for June 2026, the date part is <code>June152026</code>. However, for some other months, like December, the date part is <code>Dec152026</code>. So, we will have to try both formats to get the data. This is hard to keep track and makes little sense to try to check before making the call. It is better to exhaust the possibilities and run through it.</p>
 <p>Further, for each month there are two files, one for the 15th and one for the last day of the month (as it is fortnightly data). So, we will have to try both dates as well.</p>
 <p>We will try both the full month name and the abbreviated month name, and both the 15th and the last day of the month, and use the below code to generate the URLs for all months from 2020 to 2026. This is a simple procedural approach. One can tidy this up later.</p>
-<div id="b2ed2277" class="cell" data-execution_count="3">
+<div id="8f186c72" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> requests</span>
@@ -97,23 +97,9 @@ background-color: null;
 font-style: inherit;">=</span> calendar.month_abbr[i] <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># for example, 'Jun'</span></span>
-<span id="cb1-13">        <span class="bu" style="color: null;
+<span id="cb1-13">        <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">f"Processing </span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>month_name<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;"> </span><span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span>year<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">}</span><span class="ss" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"</span>)</span>
+font-style: inherit;">#print(f"Processing {month_name} {year}")</span></span>
 <span id="cb1-14">        last_day <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> calendar.monthrange(year, i)[<span class="dv" style="color: #AD0000;
@@ -228,91 +214,7 @@ font-style: inherit;">print</span>(date_range[:<span class="dv" style="color: #A
 background-color: null;
 font-style: inherit;">3</span>])</span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Processing January 2020
-Processing February 2020
-Processing March 2020
-Processing April 2020
-Processing May 2020
-Processing June 2020
-Processing July 2020
-Processing August 2020
-Processing September 2020
-Processing October 2020
-Processing November 2020
-Processing December 2020
-Processing January 2021
-Processing February 2021
-Processing March 2021
-Processing April 2021
-Processing May 2021
-Processing June 2021
-Processing July 2021
-Processing August 2021
-Processing September 2021
-Processing October 2021
-Processing November 2021
-Processing December 2021
-Processing January 2022
-Processing February 2022
-Processing March 2022
-Processing April 2022
-Processing May 2022
-Processing June 2022
-Processing July 2022
-Processing August 2022
-Processing September 2022
-Processing October 2022
-Processing November 2022
-Processing December 2022
-Processing January 2023
-Processing February 2023
-Processing March 2023
-Processing April 2023
-Processing May 2023
-Processing June 2023
-Processing July 2023
-Processing August 2023
-Processing September 2023
-Processing October 2023
-Processing November 2023
-Processing December 2023
-Processing January 2024
-Processing February 2024
-Processing March 2024
-Processing April 2024
-Processing May 2024
-Processing June 2024
-Processing July 2024
-Processing August 2024
-Processing September 2024
-Processing October 2024
-Processing November 2024
-Processing December 2024
-Processing January 2025
-Processing February 2025
-Processing March 2025
-Processing April 2025
-Processing May 2025
-Processing June 2025
-Processing July 2025
-Processing August 2025
-Processing September 2025
-Processing October 2025
-Processing November 2025
-Processing December 2025
-Processing January 2026
-Processing February 2026
-Processing March 2026
-Processing April 2026
-Processing May 2026
-Processing June 2026
-Processing July 2026
-Processing August 2026
-Processing September 2026
-Processing October 2026
-Processing November 2026
-Processing December 2026
-['https://www.fpi.nsdl.co.in/web/StaticReports/Fortnightly_Sector_wise_FII_Investment_Data/FIIInvestSector_January312020.html', 'https://www.fpi.nsdl.co.in/web/StaticReports/Fortnightly_Sector_wise_FII_Investment_Data/FIIInvestSector_January152020.html', 'https://www.fpi.nsdl.co.in/web/StaticReports/Fortnightly_Sector_wise_FII_Investment_Data/FIIInvestSector_Jan312020.html']</code></pre>
+<pre><code>['https://www.fpi.nsdl.co.in/web/StaticReports/Fortnightly_Sector_wise_FII_Investment_Data/FIIInvestSector_January312020.html', 'https://www.fpi.nsdl.co.in/web/StaticReports/Fortnightly_Sector_wise_FII_Investment_Data/FIIInvestSector_January152020.html', 'https://www.fpi.nsdl.co.in/web/StaticReports/Fortnightly_Sector_wise_FII_Investment_Data/FIIInvestSector_Jan312020.html']</code></pre>
 </div>
 </div>
 </section>
@@ -322,6 +224,96 @@ Processing December 2026
 <p>Each fortnight’s spreadsheet has multiple tables, and we will save each table as a separate CSV file. The first table is the main table that we are interested in (<code>table0</code> as I call it below). The other tables are supplementary tables that provide additional information. We will save all the tables for each fortnight’s data.</p>
 <p>As you will see below in the code the <code>Header</code> is important to avoid <code>403</code> error. The NSDL website blocks requests that do not have a <code>User-Agent</code> header. The User-Agent header is used to identify the client software making the request. In this case, we are using a <code>User-Agent</code> string that mimics a web browser (Safari on macOS). This helps to avoid being blocked by the server. You have to find what is yours and use that. You can find your <code>User-Agent</code> string by searching for <code>"my user agent"</code> in a web browser.</p>
 <p>All the tables within each fortnight’s data are downloaded to a specific folder. Now, we will collect all the tables (i.e.&nbsp;<code>table0</code>) into one folder.</p>
+<div id="1cb560fe" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> os</span>
+<span id="cb3-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> glob</span>
+<span id="cb3-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> shutil</span>
+<span id="cb3-4"></span>
+<span id="cb3-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># collect all table0 (of interest) into one place</span></span>
+<span id="cb3-6"></span>
+<span id="cb3-7">source_dir <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./auc_data/raw/"</span></span>
+<span id="cb3-8">target_dir <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./auc_data/raw/table0"</span></span>
+<span id="cb3-9"></span>
+<span id="cb3-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create target directory if needed</span></span>
+<span id="cb3-11">os.makedirs(target_dir, exist_ok<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb3-12"></span>
+<span id="cb3-13">csv_files <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> glob.glob(os.path.join(source_dir, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"*.csv"</span>))</span>
+<span id="cb3-14">t0_files <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [f <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> f <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> csv_files <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"table0"</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> os.path.basename(f)]</span>
+<span id="cb3-15"></span>
+<span id="cb3-16"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Loop and move all files</span></span>
+<span id="cb3-17"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> file_name <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> t0_files:</span>
+<span id="cb3-18">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Construct full file path</span></span>
+<span id="cb3-19">    source_path <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> os.path.join(source_dir, file_name)</span>
+<span id="cb3-20"></span>
+<span id="cb3-21">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Ensure it's a file (skips subfolders)</span></span>
+<span id="cb3-22">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> os.path.isfile(source_path):</span>
+<span id="cb3-23">        shutil.move(source_path, target_dir)</span>
+<span id="cb3-24"></span>
+<span id="cb3-25"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"All files transferred successfully."</span>)</span></code></pre></div></div>
+</div>
 <p>Now, you have all the FPI AUC data from the NSDL into one folder. In the next post, we will clean, organize, and bring them together.</p>
 
 
