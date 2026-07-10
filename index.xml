@@ -10,7 +10,333 @@
 <atom:link href="https://shettysandeep.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>Exploring real-world datasets with a focus on applications in banking, finance, and economics.</description>
 <generator>quarto-1.8.26</generator>
-<lastBuildDate>Sat, 25 Apr 2026 18:30:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 09 Jul 2026 18:30:00 GMT</lastBuildDate>
+<item>
+  <title>Extracting FPI Assets Under Custody (AUC) Data from NSDL</title>
+  <dc:creator>sandeep </dc:creator>
+  <link>https://shettysandeep.github.io/posts/fpi-auc/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="fpi-assets-under-custody-auc-data" class="level2">
+<h2 class="anchored" data-anchor-id="fpi-assets-under-custody-auc-data">FPI Assets Under Custody (AUC) Data</h2>
+<p>Assets Under Custody (AUC) data for FPIs shows the value of assets held by FPIs in the Indian capital markets on a given date. The NSDL provides aggregated AUC data across the broad sectors of the market. It covers investments in equity, debt, and mutual funds. We can use this data gives to review which sectors are of interest to FPIs.</p>
+<p>The AUC is calculated using the prevailing market prices ($ AUC = Asset Quantity × Closing Market Price $). The AUC can change solely due to price movements regardless of whether the holdings remain constant. To see the changes in physical asset holdings you need data on the underlying quantities. However, like the GDP deflator, we can use a price index to deflate the AUC to obtain a representation of the underlying quantities to track the changes over time in the holdings of FPIs.</p>
+</section>
+<section id="extracting-the-fpi-auc-data-from-the-nsdl-website" class="level2">
+<h2 class="anchored" data-anchor-id="extracting-the-fpi-auc-data-from-the-nsdl-website">Extracting the FPI AUC data from the NSDL website</h2>
+<p>The AUC is reported on a fortnightly basis and is available at the <a href="https://www.nsdl.com/">NSDL website</a>. The recent file is for June 2026 and goes back to 2000.</p>
+<p>Each fortnight’s data is a HTML file that looks like a spreadsheet. The unchanging part of the URL is of the form:</p>
+<p>This date is added to the end of the URL, and it changes as you select different dates. To this we must add the month and year in the format of <code>MonthNameDayYear.html</code> or <code>MonthAbbrDayYear.html</code>. For example, for June 2026, the URL is:</p>
+<section id="generate-the-urls-for-all-months-from-2020-to-2026" class="level3">
+<h3 class="anchored" data-anchor-id="generate-the-urls-for-all-months-from-2020-to-2026">Generate the URLs for all months from 2020 to 2026</h3>
+<p>The month name in the NSDL filenames changes between the full month name and the abbreviated month name. For example, for June 2026, the date part is <code>June152026</code>. However, for some other months, like December, the date part is <code>Dec152026</code>. So, we will have to try both formats to get the data. This is hard to keep track and makes little sense to try to check before making the call. It is better to exhaust the possibilities and run through it.</p>
+<p>Further, for each month there are two files, one for the 15th and one for the last day of the month (as it is fortnightly data). So, we will have to try both dates as well.</p>
+<p>We will try both the full month name and the abbreviated month name, and both the 15th and the last day of the month, and use the below code to generate the URLs for all months from 2020 to 2026. This is a simple procedural approach. One can tidy this up later.</p>
+<div id="b2ed2277" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> requests</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> calendar</span>
+<span id="cb1-3"></span>
+<span id="cb1-4">URL <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://www.fpi.nsdl.co.in/web/StaticReports/Fortnightly_Sector_wise_FII_Investment_Data/FIIInvestSector"</span></span>
+<span id="cb1-5">middle_day <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span></span>
+<span id="cb1-6">date_range <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb1-7"></span>
+<span id="cb1-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Inconsistent month representation in the NSDL files so accomodate both</span></span>
+<span id="cb1-9"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> year <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2020</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2027</span>):</span>
+<span id="cb1-10">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">13</span>):</span>
+<span id="cb1-11">        month_name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> calendar.month_name[i] <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># for example, 'June'</span></span>
+<span id="cb1-12">        month_abbr <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> calendar.month_abbr[i] <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># for example, 'Jun'</span></span>
+<span id="cb1-13">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"Processing </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>month_name<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>year<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb1-14">        last_day <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> calendar.monthrange(year, i)[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># for example, 30 or 31</span></span>
+<span id="cb1-15"></span>
+<span id="cb1-16">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># month name URL for the last day and the 15th</span></span>
+<span id="cb1-17">        url1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>URL<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">_</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>month_name<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}{</span>last_day<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}{</span>year<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">.html"</span></span>
+<span id="cb1-18">        url2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>URL<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">_</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>month_name<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}{</span>middle_day<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}{</span>year<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">.html"</span></span>
+<span id="cb1-19">        </span>
+<span id="cb1-20">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># abbreviated month name URL for the last day and the 15th</span></span>
+<span id="cb1-21">        alt_url1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>URL<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">_</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>month_abbr<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}{</span>last_day<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}{</span>year<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">.html"</span></span>
+<span id="cb1-22">        alt_url2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>URL<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">_</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>month_abbr<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}{</span>middle_day<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}{</span>year<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">.html"</span></span>
+<span id="cb1-23">        </span>
+<span id="cb1-24">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Append all the URLs to the date_range list</span></span>
+<span id="cb1-25">        date_range.append(url1)</span>
+<span id="cb1-26">        date_range.append(url2)</span>
+<span id="cb1-27">        date_range.append(alt_url1)</span>
+<span id="cb1-28">        date_range.append(alt_url2)</span>
+<span id="cb1-29"></span>
+<span id="cb1-30"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(date_range[:<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>])</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Processing January 2020
+Processing February 2020
+Processing March 2020
+Processing April 2020
+Processing May 2020
+Processing June 2020
+Processing July 2020
+Processing August 2020
+Processing September 2020
+Processing October 2020
+Processing November 2020
+Processing December 2020
+Processing January 2021
+Processing February 2021
+Processing March 2021
+Processing April 2021
+Processing May 2021
+Processing June 2021
+Processing July 2021
+Processing August 2021
+Processing September 2021
+Processing October 2021
+Processing November 2021
+Processing December 2021
+Processing January 2022
+Processing February 2022
+Processing March 2022
+Processing April 2022
+Processing May 2022
+Processing June 2022
+Processing July 2022
+Processing August 2022
+Processing September 2022
+Processing October 2022
+Processing November 2022
+Processing December 2022
+Processing January 2023
+Processing February 2023
+Processing March 2023
+Processing April 2023
+Processing May 2023
+Processing June 2023
+Processing July 2023
+Processing August 2023
+Processing September 2023
+Processing October 2023
+Processing November 2023
+Processing December 2023
+Processing January 2024
+Processing February 2024
+Processing March 2024
+Processing April 2024
+Processing May 2024
+Processing June 2024
+Processing July 2024
+Processing August 2024
+Processing September 2024
+Processing October 2024
+Processing November 2024
+Processing December 2024
+Processing January 2025
+Processing February 2025
+Processing March 2025
+Processing April 2025
+Processing May 2025
+Processing June 2025
+Processing July 2025
+Processing August 2025
+Processing September 2025
+Processing October 2025
+Processing November 2025
+Processing December 2025
+Processing January 2026
+Processing February 2026
+Processing March 2026
+Processing April 2026
+Processing May 2026
+Processing June 2026
+Processing July 2026
+Processing August 2026
+Processing September 2026
+Processing October 2026
+Processing November 2026
+Processing December 2026
+['https://www.fpi.nsdl.co.in/web/StaticReports/Fortnightly_Sector_wise_FII_Investment_Data/FIIInvestSector_January312020.html', 'https://www.fpi.nsdl.co.in/web/StaticReports/Fortnightly_Sector_wise_FII_Investment_Data/FIIInvestSector_January152020.html', 'https://www.fpi.nsdl.co.in/web/StaticReports/Fortnightly_Sector_wise_FII_Investment_Data/FIIInvestSector_Jan312020.html']</code></pre>
+</div>
+</div>
+</section>
+<section id="downloading-the-fpi-auc-files" class="level3">
+<h3 class="anchored" data-anchor-id="downloading-the-fpi-auc-files">Downloading the FPI AUC files</h3>
+<p>Now that we have the URLs, we can download the data and save it as CSV files. The following code will download the data for each URL and save it as a CSV file in the <code>auc_data/raw/</code> directory. Since there are multiple tables in the HTML file, it will save each table as a separate CSV file.</p>
+<p>Each fortnight’s spreadsheet has multiple tables, and we will save each table as a separate CSV file. The first table is the main table that we are interested in (<code>table0</code> as I call it below). The other tables are supplementary tables that provide additional information. We will save all the tables for each fortnight’s data.</p>
+<p>As you will see below in the code the <code>Header</code> is important to avoid <code>403</code> error. The NSDL website blocks requests that do not have a <code>User-Agent</code> header. The User-Agent header is used to identify the client software making the request. In this case, we are using a <code>User-Agent</code> string that mimics a web browser (Safari on macOS). This helps to avoid being blocked by the server. You have to find what is yours and use that. You can find your <code>User-Agent</code> string by searching for <code>"my user agent"</code> in a web browser.</p>
+<p>All the tables within each fortnight’s data are downloaded to a specific folder. Now, we will collect all the tables (i.e.&nbsp;<code>table0</code>) into one folder.</p>
+<p>Now, you have all the FPI AUC data from the NSDL into one folder. In the next post, we will clean, organize, and bring them together.</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>python</category>
+  <category>equity</category>
+  <category>fpi</category>
+  <category>data-science</category>
+  <category>learning</category>
+  <guid>https://shettysandeep.github.io/posts/fpi-auc/</guid>
+  <pubDate>Thu, 09 Jul 2026 18:30:00 GMT</pubDate>
+</item>
 <item>
   <title>Head in the clouds</title>
   <dc:creator>sandeep </dc:creator>
