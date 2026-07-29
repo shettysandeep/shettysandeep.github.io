@@ -13,6 +13,7 @@
 <lastBuildDate>Tue, 28 Jul 2026 18:30:00 GMT</lastBuildDate>
 <item>
   <title>FPI AUC Data Dashboard: 2023-2026</title>
+  <dc:creator>sandeep </dc:creator>
   <link>https://shettysandeep.github.io/posts/fpi-auc-dashboard/</link>
   <description><![CDATA[ 
 
@@ -3319,13 +3320,6 @@ font-style: inherit;">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.1.
   <category>spark-nlp</category>
   <guid>https://shettysandeep.github.io/posts/install-spark/</guid>
   <pubDate>Sat, 07 Jun 2025 18:30:00 GMT</pubDate>
-</item>
-<item>
-  <title></title>
-  <link>https://shettysandeep.github.io/posts/fpi-auc-dashboard/my-dashboard.html</link>
-  <description><![CDATA[ undefined ]]></description>
-  <guid>https://shettysandeep.github.io/posts/fpi-auc-dashboard/my-dashboard.html</guid>
-  <pubDate>Wed, 29 Jul 2026 11:20:58 GMT</pubDate>
 </item>
 </channel>
 </rss>
