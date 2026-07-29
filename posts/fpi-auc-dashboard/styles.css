@@ -1,0 +1,12 @@
+/* Force title text to wrap to the next line */
+.quarto-dashboard .bslib-value-box .value-box-title {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow: visible !important;
+}
+
+/* Force the main value text to wrap if it is too long */
+
+.quarto-dashboard .bslib-value-box .value-box-value {
+  font-size: clamp(1em, 10cqw, 3em) !important; /* Default max is 5em */
+}
