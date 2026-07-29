@@ -12,13 +12,27 @@
 <generator>quarto-1.8.26</generator>
 <lastBuildDate>Tue, 28 Jul 2026 18:30:00 GMT</lastBuildDate>
 <item>
-  <title></title>
-  <dc:creator>sandeep </dc:creator>
+  <title>FPI AUC Data Dashboard: 2023-2026</title>
   <link>https://shettysandeep.github.io/posts/fpi-auc-dashboard/</link>
-  <description><![CDATA[ undefined ]]></description>
-  <category>FPI</category>
-  <category>AUC</category>
-  <category>Equities</category>
+  <description><![CDATA[ 
+
+
+
+
+
+<p><code>Assets Under Custody (AUC)</code> shows the value of assets held by FPIs in the Indian capital markets. All values are in INR crores. The 2026 value is the AUC recorded as of 30 June, 2026.</p>
+<p><code>Source</code>: The data for this dashboard is from the NSDL. You can find this data under <a href="https://www.fpi.nsdl.co.in/web/Reports/FPI_Fortnightly_Selection.aspx"><em>Fortnightly Sector-wise FPI Investment data</em></a>. I talk <a href="https://shettysandeep.github.io/posts/fpi-auc/">here</a> on how to extract and clean this data.</p>
+<div class="column-page">
+<iframe src="my-dashboard.html" width="100%" height="600px" style="border:none;">
+</iframe>
+</div>
+<p><a href="my-dashboard.html" target="_blank">View Dashboard Full Screen</a></p>
+
+
+
+ ]]></description>
+  <category>Data Science</category>
+  <category>Dashboards</category>
   <guid>https://shettysandeep.github.io/posts/fpi-auc-dashboard/</guid>
   <pubDate>Tue, 28 Jul 2026 18:30:00 GMT</pubDate>
 </item>
@@ -3305,6 +3319,13 @@ font-style: inherit;">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.1.
   <category>spark-nlp</category>
   <guid>https://shettysandeep.github.io/posts/install-spark/</guid>
   <pubDate>Sat, 07 Jun 2025 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title></title>
+  <link>https://shettysandeep.github.io/posts/fpi-auc-dashboard/my-dashboard.html</link>
+  <description><![CDATA[ undefined ]]></description>
+  <guid>https://shettysandeep.github.io/posts/fpi-auc-dashboard/my-dashboard.html</guid>
+  <pubDate>Wed, 29 Jul 2026 08:35:40 GMT</pubDate>
 </item>
 </channel>
 </rss>
