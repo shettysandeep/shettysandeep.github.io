@@ -10,7 +10,57 @@
 <atom:link href="https://shettysandeep.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>Exploring real-world datasets with a focus on applications in banking, finance, and economics.</description>
 <generator>quarto-1.8.26</generator>
-<lastBuildDate>Tue, 28 Jul 2026 18:30:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 28 Oct 2026 18:30:00 GMT</lastBuildDate>
+<item>
+  <title>Monetary policy tightening and after-effects</title>
+  <dc:creator>sandeep </dc:creator>
+  <link>https://shettysandeep.github.io/posts/ben-blinder-1/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>The RBI hiked the repo rate by 25 bps in early October, increased the CRR to 99% and imposed other restrictions to counter the inflationary pressures in the economy.</p>
+<p>A tighter liquidity raises the cost of money and depresses real output and prices over time. At a sectoral level, the effects play out in a staggered way.</p>
+<p>The literature on monetary transmission provide insight on what to expect. Bernanke and Gertler (1995)<sup>1</sup> summarise: consumer durables spending and residential investments, the most interest-sensitive part of aggregate demand, will fall quickly and possibly sharply, followed closely by consumer non-durables.</p>
+<p>Production declines follow with a lag, first inventory rises in the short run and then it begins to fall as companies pull back on investments and production. The inventory disinvestment eventually accounts for a large portion of the decline in GDP.</p>
+<p>One thing to note Bernanke and Gertler (2003) look at unanticipated shocks. A sudden change in policy stance. Here, the markets were expecting a rate hike by the RBI as early as July based on the bond markets, where yields on the benchmark rose over 50-60 bps. In this case the price and output adjustment may chart a different path than described above. That said, given the non-finance sectors of the economy, this move may be considered as unanticipated.</p>
+<p>The underlying inflationary pressures remain unchanged and seem to be further compounded by poor monsoons likely dampening rural income and spending in the upcoming quarters. We will have to wait and watch what more actions the central bank takes and how output and prices adjust to the policy tightening.</p>
+
+
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Bernanke, Ben S., and Mark Gertler. 1995. “Inside the Black Box: The Credit Channel of Monetary Policy Transmission.” Journal of Economic Perspectives 9 (4): 27–48.↩︎</p></li>
+</ol>
+</section></div> ]]></description>
+  <category>rbi</category>
+  <category>inflation</category>
+  <category>monetary-policy</category>
+  <guid>https://shettysandeep.github.io/posts/ben-blinder-1/</guid>
+  <pubDate>Wed, 28 Oct 2026 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>RBI too little too late?</title>
+  <dc:creator>sandeep </dc:creator>
+  <link>https://shettysandeep.github.io/posts/rbi-reaction-note/rbi-hike-too-late.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>ECB raised rates in July citing hardening inflation four months into the West Asia crisis. RBI waited until October. Understandably, price transfers faster in Europe than in India where there are many ways to absorb the pain this does not end the pain it just tranfers it into a different time and part of the ecoomy. Just like balloon when you squeeze one side the oppsite distends. The markets were demanding higher premiums as early as June. While that could be issue specific. RBI was busy fighting the falling rupee. It still is.</p>
+
+
+
+ ]]></description>
+  <guid>https://shettysandeep.github.io/posts/rbi-reaction-note/rbi-hike-too-late.html</guid>
+  <pubDate>Thu, 22 Oct 2026 18:30:00 GMT</pubDate>
+</item>
 <item>
   <title>FPI AUC Data Dashboard: 2023-2026</title>
   <dc:creator>sandeep </dc:creator>
